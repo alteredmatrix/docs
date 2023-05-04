@@ -1,8 +1,58 @@
 ---
 title: Payments
 ---
-import PartialExample from '../../_empty.mdx';
+import PartialExample from '../../_zero-balance.mdx';
 
 # Payments
 
+A **payment** is...
+
+A **single payment** includes all transactions linked to one initiated payment.
+
+Swan accepts credit transfer, direct debit transactions, card payments, and French checks.
+Several stakeholders can initiate payments, including users, Merchants, the Swan company, and you.
+
+View the entire list of transaction types in the API reference documentation*[tk-link; [current link](https://api-reference.swan.io/#definition-TransactionTypeEnum)]*.
+
+:::caution
 <PartialExample/>
+:::
+
+## Payment statuses
+
+Because each payment can include multiple transactions, statuses are assigned to transactions.
+
+| Status | Explanation |
+| ------ | ------ |
+| `upcoming` | Initiated transactions that aren't authorized yet |
+| `pending` | Authorized transactions that aren't recorded yet |
+| `released` | Card transactions with expired authorization, so the un-debited balance returns to the available account balance |
+| `booked` | Completed and recorded debit or credit transactions |
+| `canceled` | Transactions canceled by any party |
+| `rejected` | Transactions rejected for any reason, the most common being insufficient funds |
+
+### Payment status regulations
+
+There are regulations about transaction statuses.
+
+Swan's Web Banking interface complies with all regulations.
+If you develop your own interface, pay close attention to these regulations.
+
+#### On behalf of individual users
+
+Acting on behalf of individual users requires a user access token*[tk-link]* or user impersonation*[tk-link]*.
+
+For you to view an account's transaction history, the EU Revised Directed on Payment Services (PSD2) requires Strong Customer Authentication (SCA)*[tk-link]* from the user*[tk-account holder/member?]* if they haven't performed a SCA in the preceding 90 days.
+
+After they provide consent from their mobile device, they're redirected to the callback URL.
+You can retrieve the `consentId` in the query `params`*[tk-link]*.
+Call this query anytime to retrieve an account's transaction history.
+
+#### On your own behalf (server-to-server)
+
+Acting on your own behalf requires a project access token*[tk-link]*.
+
+PSD2 does not require SCA for you to view your own transaction history.
+If you need to provide information to an individual user, however, the 90-day SCA rule applies.
+
+## SEPA
