@@ -1,4 +1,4 @@
-const lightCodeTheme = require("prism-react-renderer/themes/github");
+const lightCodeTheme = require("prism-react-renderer/themes/oceanicNext");
 const darkCodeTheme = require("prism-react-renderer/themes/oceanicNext");
 const path = require("path");
 

@@ -2,7 +2,94 @@
 title: Add payment control
 ---
 import PartialExample from '../../../_empty.mdx';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Add payment control
 
-*guide to add payment control*
+Use the `updateCardPartnerControl` mutation to configure and update payment control.
+
+## 1. Add an endpoint for payment control
+
+To implement payment control, you need to add an endpoint to your integration to manage it.
+
+Available settings:
+
+* `endpoint`: your endpoint (required)
+* `protocol`: only supported protocol is `HttpJson`
+* `defaultResponse`: needed if there is a timeout; can be true or false
+* `timeoutMs`: to provide you more flexibility
+    * Sandbox: up to 10 seconds
+    * Live: up to 1.5 seconds
+* `secret`: to add to the `x-swan-secret` header
+
+## 2. Understand the payload
+
+Swan flags POST requests to show the request is from Swan.
+
+* `x-swan` HTTP header
+* `x-swan-secret` HTTP header with the provided secret
+
+The transaction payload can include some or all of these fields.
+Explanations for highlighted lines are after the code sample.
+
+:::noteTime
+Time is noted in epoch milliseconds.
+:::
+
+```json title="updateCardPartnerControl mutation payload" showLineNumbers
+{
+    // highlight-next-line
+    "timeoutAt": 1646214666661,
+    "transactionId": "$YOUR_TRANSACTION_ID",
+    "paymentId": "$YOUR_PAYMENT_ID",
+    "accountId": "$YOUR_PAYMENT_ID",
+    "cardId": "$YOUR_CARD_ID",
+    // highlight-next-line
+    "dateTime": 1646214656661,
+    // highlight-next-line
+    "expirationDateTime": 1647114656661,
+    "originalAmountValue": 10.00,
+    "originalAmountCurrency": "EUR",
+    "amountValue": 10.00,
+    "amountCurrency": "EUR",
+    "merchantId": "SWAN",
+    "merchantCategoryCode": "0000",
+    "merchantName": "SWAN",
+    "merchantCity": "PARIS",
+    "merchantCountry": "FRA",
+    // highlight-next-line
+    "readMode": "Chip",
+    // highlight-next-line
+    "transactionCategory": "InStore",
+    // highlight-next-line
+    "authorizationType": "Classic",
+    // highlight-next-line
+    "allowsPartialAuthorization": true
+}
+```
+
+| Field | Explanation |
+| ------ | ------ |
+| timeoutAt | Time at which the transaction falls back to the default response. |
+| dateTime | Time at which the payment occurred. |
+| expirationDateTime | Release time of the remaining pre-authorization amount. |
+| readMode | Modes include Chip, ContactlessChip, ContactlessStripe, Manual, ManualChip, ManualStripe, Other, PreSavedData, and Stripe. |
+| transactionCategory | Categories include InStore, eCommerce, eCommerceWith3DS, Withdrawal, and Other. |
+| authorizationType | Authorization types include Classic, PreAuthorization, and DataRequest. |
+| allowsPartialAuthorization | Use this field if you or Swan can modify the transaction amount. |
+
+## 3. Configure your response
+
+```json title="Response to updateCardPartnerControl mutation" showLineNumbers
+{ 
+    "accepted": true,
+    "partialAuthorizationAmountValue": 10
+}
+```
+
+Swan expects either true or false in the `accepted` field.
+For a better user experience, default to true.
+
+You can configure the default `partialAuthorizationAmountValue`.
+Swan sends the default amount unless you communicate otherwise before `timeout`, and in case of endpoint contact error.*[tkq-configure where???]*

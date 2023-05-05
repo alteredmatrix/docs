@@ -12,7 +12,7 @@ A **single payment** includes all transactions linked to one initiated payment.
 Swan accepts credit transfer, direct debit transactions, card payments, and French checks.
 Several stakeholders can initiate payments, including users, Merchants, the Swan company, and you.
 
-View the entire list of transaction types in the API reference documentation*[tk-link; [current link](https://api-reference.swan.io/#definition-TransactionTypeEnum)]*.
+View the entire list of transaction types in the API reference documentation*[tkq-link; [current link](https://api-reference.swan.io/#definition-TransactionTypeEnum)]*.
 
 :::caution
 <PartialExample/>
@@ -40,17 +40,17 @@ If you develop your own interface, pay close attention to these regulations.
 
 #### On behalf of individual users
 
-Acting on behalf of individual users requires a user access token*[tk-link]* or user impersonation*[tk-link]*.
+Acting on behalf of individual users requires a user access token*[tkq-link]* or user impersonation*[tkq-link]*.
 
-For you to view an account's transaction history, the EU Revised Directed on Payment Services (PSD2) requires Strong Customer Authentication (SCA)*[tk-link]* from the user*[tk-account holder/member?]* if they haven't performed a SCA in the preceding 90 days.
+For you to view an account's transaction history, the EU Revised Directed on Payment Services (PSD2) requires Strong Customer Authentication (SCA)*[tkq-link]* from the user*[tkq-account holder/member?]* if they haven't performed a SCA in the preceding 90 days.
 
 After they provide consent from their mobile device, they're redirected to the callback URL.
-You can retrieve the `consentId` in the query `params`*[tk-link]*.
+You can retrieve the `consentId` in the query `params`*[tkq-link]*.
 Call this query anytime to retrieve an account's transaction history.
 
 #### On your own behalf (server-to-server)
 
-Acting on your own behalf requires a project access token*[tk-link]*.
+Acting on your own behalf requires a project access token*[tkq-link]*.
 
 PSD2 does not require SCA for you to view your own transaction history.
 If you need to provide information to an individual user, however, the 90-day SCA rule applies.

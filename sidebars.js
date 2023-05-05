@@ -144,7 +144,18 @@ module.exports = {
               ],
             },
             "guides/payments/direct-debit/concepts",
-            "guides/payments/card-payments/concepts",
+            {
+              type: "category",
+              label: "Card payments",
+              link: {
+                type: "doc",
+                id: "guides/payments/card-payments/concepts",
+              },
+              collapsed: true,
+              items: [
+                "guides/payments/card-payments/guide-add-payment-control",
+              ],
+            },
             "guides/payments/checks/concepts",
             "guides/payments/open-banking/concepts",
           ],

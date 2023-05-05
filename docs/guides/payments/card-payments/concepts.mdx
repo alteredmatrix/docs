@@ -9,8 +9,22 @@ import PartialExample from '../../../_empty.mdx';
 ---
 title: Card payment transaction flow
 ---
-flowchart LR
-    A[Insert] --transaction flow--> B([diagram here])
+sequenceDiagram
+    participant ME as Merchant
+    participant MC as Mastercard
+    participant S as Swan
+    participant P as Partner
+
+    ME->>MC: Sends card payment details
+    par
+        MC-->>ME: Returns accepted or rejected message
+    and
+        MC-->>S: Mastercard tells Swan something?
+    end
+    S->>P: Swan tells Partner something?
+    P-->>S: Partner responds something?
+    S->>MC: Swan tells Mastercard something?
+    P-->ME: Do the Partner and Merchant ever communicate?
 ```
 
 ## Payment control
